@@ -12,6 +12,10 @@ resource "aws_instance" "elastic-master" {
       user = "${var.INSTANCE_USER}"
       private_key = "${file("${var.PRIVATE_KEY}")}"
   }
+
+  tags {
+      Name = "elastic-master"
+  }
 }
 
 resource "aws_instance" "elastic-node-1" {
@@ -27,6 +31,10 @@ resource "aws_instance" "elastic-node-1" {
   connection {
       user = "${var.INSTANCE_USER}"
       private_key = "${file("${var.PRIVATE_KEY}")}"
+  }
+
+  tags {
+      Name = "elastic-node-1"
   }
 }
 
