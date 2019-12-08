@@ -14,7 +14,11 @@ resource "aws_instance" "elastic-master" {
   }
 
   provisioner "local-exec" {
-      command = "echo Node-1 - ${aws_instance.elastic-node-1.private_ip} >> private_ips.txt ; echo Node-1 ansible_host=${aws_instance.elastic-node-1.public_ip} >> hosts"
+      command = "echo Master=${aws_instance.elastic-master.private_ip} >> private_ips.sh ; echo Master ansible_host=${aws_instance.elastic-master.public_ip} >> hosts"
+  }
+
+  provisioner "remote-exec" {
+      inline = ["sudo apt update -y", "sudo apt install python -y"]
   }
 
   tags {
@@ -38,7 +42,11 @@ resource "aws_instance" "elastic-node-1" {
   }
 
   provisioner "local-exec" {
-      command = "echo Node-1 - ${aws_instance.elastic-node-1.private_ip} >> private_ips.txt ; echo Node-1 ansible_host=${aws_instance.elastic-node-1.public_ip} >> hosts"
+      command = "echo Node-1=${aws_instance.elastic-node-1.private_ip} >> private_ips.sh ; echo Node-1 ansible_host=${aws_instance.elastic-node-1.public_ip} >> hosts"
+  }
+
+   provisioner "remote-exec" {
+      inline = ["sudo apt update -y", "sudo apt install python -y"]
   }
 
   tags {
