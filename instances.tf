@@ -13,6 +13,10 @@ resource "aws_instance" "elastic-master" {
       private_key = "${file("${var.PRIVATE_KEY}")}"
   }
 
+  provisioner "local-exec" {
+      command = "echo Node-1 - ${aws_instance.elastic-node-1.private_ip} >> private_ips.txt ; echo Node-1 ansible_host=${aws_instance.elastic-node-1.public_ip} >> hosts"
+  }
+
   tags {
       Name = "elastic-master"
   }
@@ -31,6 +35,10 @@ resource "aws_instance" "elastic-node-1" {
   connection {
       user = "${var.INSTANCE_USER}"
       private_key = "${file("${var.PRIVATE_KEY}")}"
+  }
+
+  provisioner "local-exec" {
+      command = "echo Node-1 - ${aws_instance.elastic-node-1.private_ip} >> private_ips.txt ; echo Node-1 ansible_host=${aws_instance.elastic-node-1.public_ip} >> hosts"
   }
 
   tags {
