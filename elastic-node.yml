@@ -1,5 +1,5 @@
 ---
-  - hosts: Master
+  - hosts: Node*
     become: true
     gather_facts: no
     tasks:
@@ -7,9 +7,9 @@
         apt:
           upgrade: dist
  
-      - name: Set private/public ips on each servers
+      - name: Set private ips on each servers
         script: ips.sh
-
+      
       - name: Installing Java
         apt:
           name: openjdk-11-jre-headless
@@ -41,8 +41,8 @@
       - name: Modify Maximum Java Heap
         lineinfile: dest=/etc/elasticsearch/jvm.options line='-Xmx300m' regexp='-Xmx1g'
 
-      - name: Configure master elasticsearch.yml
-        script: main.sh
+      - name: Configure elasticsearch.yml
+        script: node.sh
 
       - name: Start and Enable Elasticsearch service
         service:

@@ -1,0 +1,10 @@
+echo "network.host: [_local_,_site_]" >> /etc/elasticsearch/elasticsearch.yml
+echo "cluster.name: elasticsearch" >> /etc/elasticsearch/elasticsearch.yml
+echo "node.name: node1" >> /etc/elasticsearch/elasticsearch.yml
+echo "node.attr.zone: 2" >> /etc/elasticsearch/elasticsearch.yml
+echo "node.attr.temp: hot" >> /etc/elasticsearch/elasticsearch.yml
+echo "node.master: true" >> /etc/elasticsearch/elasticsearch.yml
+echo "node.data: true" >> /etc/elasticsearch/elasticsearch.yml
+echo "node.ingest: false" >> /etc/elasticsearch/elasticsearch.yml
+echo "discovery.zen.ping.unicast.hosts: ["'$Master'","'$Node1'","'$Node2'"]" >> /etc/elasticsearch/elasticsearch.yml
+echo "discovery.zen.minimum_master_nodes: 1" >> /etc/elasticsearch/elasticsearch.yml
