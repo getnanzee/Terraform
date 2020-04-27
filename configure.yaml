@@ -1,15 +1,24 @@
 ---
-  - hosts: Node*
+  - hosts: all
     become: true
     gather_facts: no
     tasks:
+      - name: Set Master Instance Name
+        command: echo "nodename=master" >> /etc/environment
+        when: inventory_hostname == "master"
+
+      - name: Set Node1 Instance Name
+        command: echo "nodename=node1" >> /etc/environment
+        when: inventory_hostname == "node1"
+
+      - name: Set Node Instance Name
+        command: echo "nodename=node2" >> /etc/environment
+        when: inventory_hostname == "node2"
+
       - name: Update packages
         apt:
           upgrade: dist
  
-      - name: Set private ips on each servers
-        script: ips.sh
-      
       - name: Installing Java
         apt:
           name: openjdk-11-jre-headless
@@ -41,8 +50,11 @@
       - name: Modify Maximum Java Heap
         lineinfile: dest=/etc/elasticsearch/jvm.options line='-Xmx300m' regexp='-Xmx1g'
 
+      - name: Install Discovery Plugin
+        command: /usr/share/elasticsearch/bin/elasticsearch-plugin install -b discovery-ec2
+
       - name: Configure elasticsearch.yml
-        script: node.sh
+        script: configuration-file.sh
 
       - name: Start and Enable Elasticsearch service
         service:
