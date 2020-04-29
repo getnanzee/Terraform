@@ -4,7 +4,7 @@ sleep 5
 
 # Applying Terraform Changes
 terraform apply -auto-approve
-sleep 5
+sleep 15
 
 # Deploying Ansible Configurations
 ansible-playbook configure.yaml
